@@ -1,16 +1,18 @@
 import { useState} from 'react'
 import { db } from './firebaseConnection'
-import { doc, setDoc, collection, addDoc, getDoc, getDocs } from 'firebase/firestore'
+import { doc, setDoc, collection, addDoc, getDoc, getDocs, updateDoc } from 'firebase/firestore'
 import './app.css'
 import { async } from '@firebase/util'
 
 export default function App(){
   const [titulo, setTitulo] = useState('')
   const [autor, setAutor] = useState('')
+  const [idPost, setIdPost] = useState('')
 
   const [posts, setPosts] = useState([])
 
   async function handleAdd(){
+    // // PARA GRAVAR O ID MANUALMENTE
     // await setDoc(doc(db, "posts", "12345"), {
     //   titulo: titulo,
     //   autor: autor,
@@ -38,6 +40,7 @@ export default function App(){
   }
 
   async function buscarPost(){
+    // // PARA BUSCAR UM ÚNICO REGISTRO
     // const postRef = doc(db, 'posts', '6yXy8DN6Q99JGCCYoy0v')
 
     // await getDoc(postRef)
@@ -70,11 +73,39 @@ export default function App(){
 
   }
 
+  async function editarPost(){
+    const docRef = doc(db, 'posts', idPost)
+
+    await updateDoc(docRef, {
+      titulo: titulo,
+      autor: autor
+    })
+    .then(() => {
+      console.log('Post atualizado!')
+      setIdPost('')
+      setTitulo('')
+      setAutor('')
+    })
+    .catch((error) => {
+      console.log('Error ao atualizar: ' + error)
+    })
+
+  }
+  
   return(
     <div>
       <h1>Login RLGouvea</h1>
 
       <div className='container'>
+
+        <label>ID do Post:</label>
+        <input 
+          type="text" 
+          placeholder='Digite o ID do post'
+          value={idPost}
+          onChange={ (e) => setIdPost(e.target.value)}
+        /><br/>
+
         <label>Título:</label>
         <textarea 
           type='text'
@@ -92,14 +123,17 @@ export default function App(){
         />
 
         <button onClick={handleAdd}>Cadastrar</button>
-        <button onClick={buscarPost}>Buscar</button>
+        <button onClick={buscarPost}>Buscar</button> <br/>
+
+        <button onClick={editarPost}>Atualizar post</button>
 
         <ul>
           {posts.map((post) => {
             return(
               <li key={post.id}>
+                <strong>ID: {post.id}</strong> <br/>
                 <span>Título: {post.titulo}</span> <br/>
-                <span>Autor: {post.autor}</span> <br/>
+                <span>Autor: {post.autor}</span> <br/><br/>
               </li>
             )
           })}
