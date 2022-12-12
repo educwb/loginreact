@@ -1,6 +1,6 @@
 import { useState} from 'react'
 import { db } from './firebaseConnection'
-import { doc, setDoc, collection, addDoc, getDoc, getDocs, updateDoc } from 'firebase/firestore'
+import { doc, setDoc, collection, addDoc, getDoc, getDocs, updateDoc, deleteDoc } from 'firebase/firestore'
 import './app.css'
 import { async } from '@firebase/util'
 
@@ -91,6 +91,17 @@ export default function App(){
     })
 
   }
+
+  async function excluirPost(id){
+    const docRef = doc(db, 'posts', id)
+    await deleteDoc(docRef)
+    .then(() => {
+      console.log(`Post ${id} deletado com sucesso`)
+    })
+    .catch((error) => {
+      console.log('Error ao deletar: ' + error)
+    })
+  }
   
   return(
     <div>
@@ -133,7 +144,8 @@ export default function App(){
               <li key={post.id}>
                 <strong>ID: {post.id}</strong> <br/>
                 <span>Título: {post.titulo}</span> <br/>
-                <span>Autor: {post.autor}</span> <br/><br/>
+                <span>Autor: {post.autor}</span> <br/>
+                <button onClick={() => excluirPost(post.id) }>Excluir</button> <br/><br/>
               </li>
             )
           })}
