@@ -99,7 +99,21 @@ export default function App(){
       console.log(`Post ${id} deletado com sucesso`)
     })
     .catch((error) => {
-      console.log('Error ao deletar: ' + error)
+      console.log('Erro ao deletar: ' + error)
+    })
+  }
+  
+  async function carregarPost(id){
+    const docRef = doc(db, 'posts', id)
+    await getDoc(docRef)
+    .then((dadosDoBanco) => {
+      console.log(`Post ${id} carregado com sucesso`)
+      setIdPost(dadosDoBanco.id)
+      setTitulo(dadosDoBanco.data().titulo)
+      setAutor(dadosDoBanco.data().autor)
+    })
+    .catch((error) => {
+      console.log('Erro ao carregar: ' + error)
     })
   }
   
@@ -145,6 +159,7 @@ export default function App(){
                 <strong>ID: {post.id}</strong> <br/>
                 <span>Título: {post.titulo}</span> <br/>
                 <span>Autor: {post.autor}</span> <br/>
+                <button onClick={() => carregarPost(post.id) }>Editar</button> 
                 <button onClick={() => excluirPost(post.id) }>Excluir</button> <br/><br/>
               </li>
             )
