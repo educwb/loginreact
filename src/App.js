@@ -1,6 +1,17 @@
-import { useState} from 'react'
+import { useState, useEffect} from 'react'
 import { db } from './firebaseConnection'
-import { doc, setDoc, collection, addDoc, getDoc, getDocs, updateDoc, deleteDoc } from 'firebase/firestore'
+import { 
+  doc, 
+  setDoc, 
+  collection, 
+  addDoc, 
+  getDoc, 
+  getDocs, 
+  updateDoc, 
+  deleteDoc, 
+  onSnapshot 
+} from 'firebase/firestore'
+
 import './app.css'
 import { async } from '@firebase/util'
 
@@ -10,6 +21,26 @@ export default function App(){
   const [idPost, setIdPost] = useState('')
 
   const [posts, setPosts] = useState([])
+
+  useEffect(() => {
+    async function refreshPosts(){ // o nome usado pelo Matheus é loadPosts
+      const unsub = onSnapshot(collection(db, 'posts'), (dadosDoBanco) => {
+        let listaPost = []
+
+        dadosDoBanco.forEach((doc) => {
+          listaPost.push({
+            id: doc.id,
+            titulo: doc.data().titulo,
+            autor: doc.data().autor,
+          })
+        })
+
+        setPosts(listaPost)
+      })
+    }
+
+    refreshPosts()
+  }, [])
 
   async function handleAdd(){
     // // PARA GRAVAR O ID MANUALMENTE
