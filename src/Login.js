@@ -67,8 +67,7 @@ export default function Login(){
       {
         user && (
           <div>
-            <strong>Seja bem-vinda(o) Você está logado!</strong> <br/>
-            <span>ID: {userDetail.uid} - Email: {userDetail.email}</span>
+            <span>Email: {userDetail.email}</span>
             <br/> <br/>
           </div>
         )
