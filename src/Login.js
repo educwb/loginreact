@@ -4,7 +4,8 @@ import'./app.css'
 
 import { 
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  signOut
 } from 'firebase/auth'
 
 export default function Login(){
@@ -60,6 +61,12 @@ export default function Login(){
     })
   }
 
+  async function fazerLogout(){
+    await signOut(auth)
+    setUser(false)
+    setUserDetail({})
+  }
+
   return(
     <div>
       <h1>Login RLGouvea</h1>
@@ -67,7 +74,8 @@ export default function Login(){
       {
         user && (
           <div>
-            <span>Email: {userDetail.email}</span>
+            <span>Email: {userDetail.email}</span> <br/>
+            <button onClick={fazerLogout}>Sair</button>
             <br/> <br/>
           </div>
         )
