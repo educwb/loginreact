@@ -2,7 +2,10 @@ import { useState } from 'react'
 import { auth } from './firebaseConnection'
 import'./app.css'
 
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { 
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword
+} from 'firebase/auth'
 
 export default function Login(){
 
@@ -24,6 +27,24 @@ export default function Login(){
         alert('Senha precisa ter pelo menos 6 caracteres!')
       } else if(error.code === 'auth/email-already-in-use'){
         alert('Email já existe!')
+      }
+    })
+  }
+
+  async function logarUsuario(){
+    await signInWithEmailAndPassword(auth, email, senha)
+    .then((value) => {
+      console.log('Usuário logado com sucesso')
+      setEmail('')
+      setSenha('')
+    })
+    .catch((error) => {
+      console.log('Erro ao logar: ' + error)
+
+      if(error.code === 'auth/user-not-found'){
+        alert('Usuário não cadastrado!')
+      } else if(error.code === 'auth/wrong-password'){
+        alert('Senha incorreta!')
       }
     })
   }
@@ -51,7 +72,8 @@ export default function Login(){
           placeholder='Informe sua senha'
         /> <br/>
 
-        <button onClick={novoUsuario}>Cadastrar</button>
+        <button onClick={novoUsuario}>Cadastrar</button> <br/>
+        <button onClick={logarUsuario}>Entrar</button>
       </div>
     </div>
   )
