@@ -1,11 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { auth } from './firebaseConnection'
 import'./app.css'
 
 import { 
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut
+  signOut,
+  onAuthStateChanged,
 } from 'firebase/auth'
 
 export default function Login(){
@@ -15,6 +16,27 @@ export default function Login(){
 
   const [user, setUser] = useState(false)
   const [userDetail, setUserDetail] = useState({})
+
+  useEffect(() => {
+    async function checkLogin(){
+      onAuthStateChanged(auth, (user) => {
+        if(user){
+          // se tem usuário logado
+          console.log(user)
+          setUser(true)
+          setUserDetail({
+            email: user.email
+          })
+        } else {
+          // não tem usuário logado
+          setUser(false)
+          setUserDetail({})
+        }
+      })
+    }
+
+    checkLogin()
+  }, [])
 
   async function novoUsuario(){
     await createUserWithEmailAndPassword(auth, email, senha)
