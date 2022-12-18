@@ -13,7 +13,6 @@ import {
 } from 'firebase/firestore'
 
 import './app.css'
-import { async } from '@firebase/util'
 
 export default function App(){
   const [titulo, setTitulo] = useState('')
