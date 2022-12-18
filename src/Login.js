@@ -12,11 +12,15 @@ export default function Login(){
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
 
+  const [user, setUser] = useState(false)
+  const [userDetail, setUserDetail] = useState({})
+
   async function novoUsuario(){
     await createUserWithEmailAndPassword(auth, email, senha)
     .then((value) => {
       console.log('Cadastrado com sucesso!')
       console.log(value)
+
       setEmail('')
       setSenha('')
     })
@@ -35,6 +39,13 @@ export default function Login(){
     await signInWithEmailAndPassword(auth, email, senha)
     .then((value) => {
       console.log('Usuário logado com sucesso')
+
+      setUserDetail({
+        uid: value.user.uid,
+        email: value.user.email,
+      })
+      setUser(true)
+      
       setEmail('')
       setSenha('')
     })
@@ -52,6 +63,16 @@ export default function Login(){
   return(
     <div>
       <h1>Login RLGouvea</h1>
+
+      {
+        user && (
+          <div>
+            <strong>Seja bem-vinda(o) Você está logado!</strong> <br/>
+            <span>ID: {userDetail.uid} - Email: {userDetail.email}</span>
+            <br/> <br/>
+          </div>
+        )
+      }
 
       <h2>Usuário</h2>
 
