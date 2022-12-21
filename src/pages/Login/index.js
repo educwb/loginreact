@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import { auth } from '../firebaseConnection'
-import '../app.css'
+import { auth } from '../../firebaseConnection'
 
 import { 
   createUserWithEmailAndPassword,
@@ -8,6 +7,8 @@ import {
   signOut,
   onAuthStateChanged,
 } from 'firebase/auth'
+
+import './login.css'
 
 export default function Login(){
 
@@ -22,7 +23,7 @@ export default function Login(){
       onAuthStateChanged(auth, (user) => {
         if(user){
           // se tem usuário logado
-          console.log(user)
+          // console.log(user)
           setUser(true)
           setUserDetail({
             email: user.email
@@ -42,7 +43,7 @@ export default function Login(){
     await createUserWithEmailAndPassword(auth, email, senha)
     .then((value) => {
       console.log('Cadastrado com sucesso!')
-      console.log(value)
+      // console.log(value)
 
       setEmail('')
       setSenha('')
@@ -54,6 +55,8 @@ export default function Login(){
         alert('Senha precisa ter pelo menos 6 caracteres!')
       } else if(error.code === 'auth/email-already-in-use'){
         alert('Email já existe!')
+      } else if(error.code === 'auth/invalid-email'){
+        alert('Email inválido!')
       }
     })
   }
