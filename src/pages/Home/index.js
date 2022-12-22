@@ -1,5 +1,11 @@
 import { useState } from "react";
+
 import { Link } from "react-router-dom";
+
+import { auth } from '../../firebaseConnection'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+
+import { useNavigate } from 'react-router-dom'
 
 import './home.css'
 
@@ -7,11 +13,30 @@ export default function Home(){
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  function handleLogin(e){
+  const navigate = useNavigate()
+
+  async function handleLogin(e){
     e.preventDefault()
 
     if(email !== '' && password !==''){
-      alert('teste')
+      
+      await signInWithEmailAndPassword(auth, email, password)
+      .then((value) => {
+        console.log('Usuário logado com sucesso')
+        
+        // navegar para /admin
+        navigate('/admin', { replace: true})
+          
+      })
+      .catch((error) => {
+        console.log('Erro ao logar: ' + error)
+  
+        if(error.code === 'auth/user-not-found'){
+          alert('Usuário não cadastrado!')
+        } else if(error.code === 'auth/wrong-password'){
+          alert('Senha incorreta!')
+        }
+      })
     }else{
       alert('Preencha todos os campos!')
     }
