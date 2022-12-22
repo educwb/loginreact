@@ -1,11 +1,9 @@
 import { useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { auth } from '../../firebaseConnection'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-
-import { useNavigate } from 'react-router-dom'
 
 import './home.css'
 
@@ -59,7 +57,6 @@ export default function Home(){
           />
 
           <input 
-            autoComplete={false}
             type="password" 
             placeholder="******"
             value={password}
