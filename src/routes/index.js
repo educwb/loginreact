@@ -6,9 +6,6 @@ import Register from '../pages/Register'
 
 import Private from './Private'
 
-import Login from '../pages/Login'
-import Posts from '../pages/Posts'
-
 function RoutesApp(){
   return(
     <Routes>
@@ -20,9 +17,6 @@ function RoutesApp(){
           <Admin/>
         </Private>
       }/>
-
-      <Route path='/login' element={ <Login/> } />
-      <Route path='/posts' element={ <Posts/> } />
     </Routes>
   )
 }
