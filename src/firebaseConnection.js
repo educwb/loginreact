@@ -3,13 +3,12 @@ import { getFirestore } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyApQiCk_hBlG4ZbCI87qFxoR64kPxH3Qh4",
-  authDomain: "aula-login-ad22d.firebaseapp.com",
-  projectId: "aula-login-ad22d",
-  storageBucket: "aula-login-ad22d.appspot.com",
-  messagingSenderId: "955981809340",
-  appId: "1:955981809340:web:c4db07f35d9a08ea28f2b9",
-  measurementId: "G-VWMJKXYHEB"
+  apiKey: "AIzaSyA1wHIV3_Uv772r_mzNNHrJEBevOLR7XkA",
+  authDomain: "rlgouvea-a860e.firebaseapp.com",
+  projectId: "rlgouvea-a860e",
+  storageBucket: "rlgouvea-a860e.appspot.com",
+  messagingSenderId: "1057327392884",
+  appId: "1:1057327392884:web:c76f326e6eac30a68dc921"
 };
 
 const firebaseApp = initializeApp(firebaseConfig)
